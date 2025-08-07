@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -33,21 +32,20 @@ const submit = () => {
     <Head title="Log in" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
 
         <form @submit.prevent="submit">
+            <div class="flex justify-center">
+                <img src="/storage/images/logo_hapag.png" alt="Logo"/>
+            </div>
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="username" value="Username" class="text-green-800" />
                 <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
+                    id="username"
+                    v-model="form.username"
+                    type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus
@@ -57,7 +55,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Password" class="text-green-800" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -69,18 +67,17 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="flex items-center mt-4 justify-between">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Forgot your password?
                 </Link>
+            </div>
 
+            <div class="flex items-center justify-center mt-4">
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>
